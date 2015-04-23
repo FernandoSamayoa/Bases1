@@ -4,6 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var pg = require("pg");
+
+var conString = "pg://postgres:050393@localhost:5432/mydatabase";
+
+var client = new pg.Client(conString);
+client.connect();
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -55,6 +61,17 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+// client.query("CREATE TABLE IF NOT EXISTS emps(firstname varchar(64), lastname varchar(64))");
+// client.query("INSERT INTO emps(firstname, lastname) values($1, $2)", ['Ronald', 'McDonald']);
+// client.query("INSERT INTO emps(firstname, lastname) values($1, $2)", ['Mayor', 'McCheese']);
 
+var query = client.query("SELECT * FROM \"CLIENTE\"");
+query.on("row", function (row, result) {
+    result.addRow(row);
+});
+query.on("end", function (result) {
+    console.log(JSON.stringify(result.rows, null, "    "));
+    client.end();
+});
 
 module.exports = app;
