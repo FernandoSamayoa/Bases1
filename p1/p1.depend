@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1427561261 source:/home/feer/p1/main.c
+	<sys/shm.h>
+	<unistd.h>
+
