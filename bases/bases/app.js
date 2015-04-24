@@ -100,7 +100,7 @@ module.exports = app;
 
 io.sockets.on('connection', function (socket) {
     console.log('A new user connected!');
-    socket.on('rutas',function(data){
+    socket.on('clientes',function(data){
       var query = client.query("SELECT * FROM \"CLIENTE\"");
      query.on('row', function(row,result) {
             //console.log(row);
@@ -109,7 +109,31 @@ io.sockets.on('connection', function (socket) {
         });
      query.on('end', function(result) {
             //console.log(result.rows);
+            socket.emit('respuesta_cliente', result);
+        });
+    });
+        socket.on('rutas',function(data){
+      var query = client.query("SELECT * FROM \"RUTA\"");
+     query.on('row', function(row,result) {
+            //console.log(row);
+            //socket.emit('respuesta_ruta', row);
+           result.addRow(row);
+        });
+     query.on('end', function(result) {
+            //console.log(result.rows);
             socket.emit('respuesta_ruta', result);
+        });
+    });
+      socket.on('ruta_parada',function(data){
+      var query = client.query("select R.\"NOMBRE\" as \"ruta\", P.\"NOMBRE\"FROM \"RUTA\" R, \"PARADA\" P, \"RUTA_PARADA\" RP WHERE RP.\"RUTA\" = R.\"RUTA\" AND RP.\"PARADA\" = P.\"PARADA\" ORDER BY(R.\"NOMBRE\") ");
+     query.on('row', function(row,result) {
+            //console.log(row);
+            //socket.emit('respuesta_ruta', row);
+           result.addRow(row);
+        });
+     query.on('end', function(result) {
+            //console.log(result.rows);
+            socket.emit('respuesta_rutas_paradas', result);
         });
     });
     socket.on('req_kill',function(data){   
