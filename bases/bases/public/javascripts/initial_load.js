@@ -65,15 +65,18 @@ setInterval(function() {
     
     telem.value = total;*/
      var myTable= "<table><tr><td style='width: 200px; color: red;'>Nombre Ruta</td>";
-    myTable+="<td style='width: 400px; color: red; text-align: right;'>Nombre Parada</td></tr>";
+    myTable+="<td style='width: 400px; color: red; text-align: right;'>Nombre Parada</td>";
+        myTable+="<td style='width: 100px; color: red; text-align: right;'>Orden</td></tr>";
 
     myTable+="<tr><td style='width: 200px;                   '>---------------</td>";
+    myTable+="<td     style='width: 200px; text-align: right;'>---------------</td>";
     myTable+="<td     style='width: 200px; text-align: right;'>---------------</td></tr>";
 
     var tam = data.rows.length;
     for (var i=0; i<tam; i++) {
     myTable+="<td style='width: 200px; text-align: right;'>" + data.rows[i].ruta + "</td>";
-    myTable+="<td style='width: 200px; text-align: right;'>" + data.rows[i].NOMBRE + "</td></tr>";
+    myTable+="<td style='width: 200px; text-align: right;'>" + data.rows[i].NOMBRE + "</td>";
+    myTable+="<td style='width: 200px; text-align: right;'>" + data.rows[i].ORDEN + "</td></tr>";
 
     }
 

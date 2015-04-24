@@ -8,6 +8,8 @@ var http = require('http');
 
 var routes = require('./routes/index');//'./routes/index'
 var users = require('./routes/users');
+var abc = require('./routes/abc');
+var planificador = require('./routes/planificador');
 /*var procesos = require('./routes/procesos');
 var memoria = require('./routes/memoria');*/
 var fs = require('fs');//
@@ -39,6 +41,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/abc',abc);
+app.use('/planificador',planificador);
 /*app.use('/procesos',procesos);
 app.use('/memoria',memoria);*/
 // catch 404 and forward to error handler
@@ -100,6 +104,7 @@ module.exports = app;
 
 io.sockets.on('connection', function (socket) {
     console.log('A new user connected!');
+
     socket.on('clientes',function(data){
       var query = client.query("SELECT * FROM \"CLIENTE\"");
      query.on('row', function(row,result) {
@@ -112,6 +117,7 @@ io.sockets.on('connection', function (socket) {
             socket.emit('respuesta_cliente', result);
         });
     });
+
         socket.on('rutas',function(data){
       var query = client.query("SELECT * FROM \"RUTA\"");
      query.on('row', function(row,result) {
@@ -124,8 +130,22 @@ io.sockets.on('connection', function (socket) {
             socket.emit('respuesta_ruta', result);
         });
     });
+
+                socket.on('paradas',function(data){
+      var query = client.query("SELECT * FROM \"PARADA\"");
+     query.on('row', function(row,result) {
+            //console.log(row);
+            //socket.emit('respuesta_ruta', row);
+           result.addRow(row);
+        });
+     query.on('end', function(result) {
+            //console.log(result.rows);
+            socket.emit('respuesta_parada', result);
+        });
+    });
+
       socket.on('ruta_parada',function(data){
-      var query = client.query("select R.\"NOMBRE\" as \"ruta\", P.\"NOMBRE\"FROM \"RUTA\" R, \"PARADA\" P, \"RUTA_PARADA\" RP WHERE RP.\"RUTA\" = R.\"RUTA\" AND RP.\"PARADA\" = P.\"PARADA\" ORDER BY(R.\"NOMBRE\") ");
+      var query = client.query("select R.\"NOMBRE\" as \"ruta\", P.\"NOMBRE\", RP.\"ORDEN\" FROM \"RUTA\" R, \"PARADA\" P, \"RUTA_PARADA\" RP WHERE RP.\"RUTA\" = R.\"RUTA\" AND RP.\"PARADA\" = P.\"PARADA\" ORDER BY(R.\"NOMBRE\") ");
      query.on('row', function(row,result) {
             //console.log(row);
             //socket.emit('respuesta_ruta', row);
@@ -135,7 +155,48 @@ io.sockets.on('connection', function (socket) {
             //console.log(result.rows);
             socket.emit('respuesta_rutas_paradas', result);
         });
+
     });
+
+      socket.on('buses',function(data){
+      var query = client.query("SELECT * FROM \"BUS\"");
+     query.on('row', function(row,result) {
+            //console.log(row);
+            //socket.emit('respuesta_ruta', row);
+           result.addRow(row);
+        });
+     query.on('end', function(result) {
+            //console.log(result.rows);
+            socket.emit('respuesta_buses', result);
+        });
+    });
+      socket.on('eliminar_bus',function(data){
+      var query = client.query("DELETE FROM \"ASIGNACION\" WHERE \"BUS\"="+data+";");
+      query = client.query("DELETE FROM \"BUS\" WHERE \"BUS\"="+data+";");
+      console.log("Bus eliminado!");       
+    });
+
+      socket.on('agregar_ruta_bus',function(data){
+      var query = client.query("DELETE FROM \"ASIGNACION\" WHERE \"BUS\"="+data["bus"]+";");
+      query = client.query("INSERT INTO \"ASIGNACION\" (\"BUS\", \"RUTA\") VALUES("+data["bus"]+","+data["ruta"]+");");
+      console.log("Bus-ruta eliminado!");       
+    });
+
+    socket.on('actualizar_bus',function(data){
+      var query = client.query("UPDATE \"BUS\" SET \"TIPO_BUS\" = "+data["tipo"]+" WHERE \"BUS\"="+data["bus"]+"; ");
+      console.log("Bus Actualizado!");       
+    });
+
+    socket.on('agregar_bus',function(data){
+      var query = client.query("INSERT INTO \"BUS\" (\"BUS\", \"TIPO_BUS\" ) VALUES(nextval('seq_bus'),"+data+");");
+      console.log("Bus Ingresado!");       
+    });
+
+    socket.on('agregar_ruta_parada',function(data){
+      var query = client.query("INSERT INTO \"RUTA_PARADA\" (\"RUTA\", \"PARADA\", \"ORDEN\" ) VALUES("+data["ruta"]+","+data["parada"]+","+data["orden"]+");");
+      console.log("Parada agregada a ruta Ingresado!");       
+    });
+
     socket.on('req_kill',function(data){   
     matar(data.my);
     });

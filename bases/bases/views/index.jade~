@@ -35,7 +35,7 @@ head
           | et, nulla. Donec pretium nibh sed est faucibus suscipit. Nunc nisi. Nullam vehicula. In ipsum lorem, bibendum sed,
           | consectetuer et, gravida id, erat. Ut imperdiet, leo vel condimentum faucibus, risus justo feugiat purus, vitae
           | congue nulla diam non urna.
- h2
+        h2
           a(href='#') Paradas por ruta
         .articles
           div(id="trupar")
@@ -52,7 +52,7 @@ head
         h2 Categories :
         ul
           li
-            a(href='#') World Politics
+            a(href="/abc") ABC Buses
           |  
           li
             a(href='#') Europe Sport
