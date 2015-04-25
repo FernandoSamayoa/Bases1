@@ -227,6 +227,12 @@ io.sockets.on('connection', function (socket) {
       console.log("Bus Ingresado!");       
     });
 
+    socket.on('agregar_ruta',function(data){
+    var query = client.query("INSERT INTO \"RUTA\" (\"RUTA\", \"NOMBRE\" ) VALUES(nextval('seq_ruta'),"+data+");");
+      console.log("Ruta creada");       
+    });
+
+
     socket.on('agregar_ruta_parada',function(data){
       var query = client.query("INSERT INTO \"RUTA_PARADA\" (\"RUTA\", \"PARADA\", \"ORDEN\" ) VALUES("+data["ruta"]+","+data["parada"]+","+data["orden"]+");");
       console.log("Parada agregada a ruta Ingresado!");       

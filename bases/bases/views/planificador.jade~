@@ -25,7 +25,12 @@ head
           a(href='#') Asociacion de buses
         .articles
           div(id="area_bus")
-
+          div(id="mi_bus")
+        h2
+          a(href='#') Crear Rutas
+        .articles
+          div(id="area_ruta")
+          
           
       .right
         h2 Categories :

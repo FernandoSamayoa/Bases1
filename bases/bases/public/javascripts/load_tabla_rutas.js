@@ -33,6 +33,11 @@ socket.on('respuesta_rutas_paradas', function (data) {
     var t = document.getElementById('tablarutas');
     t.innerHTML = myTable;
 
+    myTable="<input type='text' id='nruta'/>"
+    myTable+="<input type='button' value='submit' onclick='agregar_r()' />";
+   var z = document.getElementById('area_ruta');
+    z.innerHTML = myTable;
+
 });
 
  socket.on('respuesta_ruta', function (data) {
@@ -129,6 +134,8 @@ socket.on('respuesta_rutas_paradas', function (data) {
     t.innerHTML = myTable;
 });
 
+
+
 function agregar_pr(){
 	var obj={};
 var e = document.getElementById("cruta");
@@ -158,4 +165,10 @@ var d = document.getElementById("cbus2");
  	console.log(obj);
  	socket.emit('agregar_ruta_bus',obj);
 
+}
+
+function agregar_r(){
+    var valor = document.getElementById('nruta').value;
+    
+    socket.emit('agregar_ruta',valor)
 }
