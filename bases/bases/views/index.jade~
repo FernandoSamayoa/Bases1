@@ -63,7 +63,7 @@ head
           li
             a(href='/boleto') Pago Tickets
           li
-            a(href='#') Mi Historial
+            a(href='/consulta') Mi Historial
           |  
           li
             a(href='#') Last Category

@@ -13,6 +13,7 @@ var planificador = require('./routes/planificador');
 var reserva = require('./routes/reserva');
 var boleto = require('./routes/boleto');
 var consulta = require('./routes/consulta');
+var about = require('./routes/about');
 /*var procesos = require('./routes/procesos');
 var memoria = require('./routes/memoria');*/
 var fs = require('fs');//
@@ -49,6 +50,7 @@ app.use('/planificador',planificador);
 app.use('/reserva',reserva);
 app.use('/boleto',boleto);
 app.use('/consulta',consulta);
+app.use('/about',about);
 /*app.use('/procesos',procesos);
 app.use('/memoria',memoria);*/
 // catch 404 and forward to error handler

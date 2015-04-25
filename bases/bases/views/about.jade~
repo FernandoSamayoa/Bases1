@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1= title
+  p Esta pagina fue desarrollada y probada con lo suiguiente: Node js: br
+  p Modulos usados: pg (usado para la conexion con la base de datos POSTGRESQL
+  p                socket.io (sockets de comunicacion entre el servidor y el cliente)
+  p                express (framework que ayuda con la organizacion y la utilizacion de nodejs)
+  p           
+  p Specs de la computadora de desarrolador:
+  p                                            * Ubuntu 14.04
+  p                                            * 12GB Ram Corshair
+  p                                            * 512GB Disco Duro
+  p                                            * Intel Core i7 Mobile
+  p         
+  p                                           
+  p REQUERIMIENTOS:
+  p Es una pagina web -_-, solamente usar un buen navegador web (chrome, firefox, safari, opera, etc)
+
+
+
+
+
+
